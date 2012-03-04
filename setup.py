@@ -9,7 +9,7 @@ requires = ['feedgenerator', 'jinja2', 'pygments', 'docutils', 'pytz']
 if sys.version_info < (2,7):
     requires.append('argparse')
 
-scripts = ['bin/pelican', 'tools/pelican-themes', 'tools/pelican-import', 'tools/pelican-quickstart']
+scripts = ['tools/pelican', 'tools/pelican-themes', 'tools/pelican-import', 'tools/pelican-quickstart']
 
 if sys.platform.startswith('win'):
     scripts += [

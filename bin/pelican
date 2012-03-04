@@ -1,7 +1,0 @@
-#!/Users/tarek/Dev/github.com/pelican/bin/python
-# EASY-INSTALL-DEV-SCRIPT: 'pelican==3.0','pelican'
-__requires__ = 'pelican==3.0'
-from pkg_resources import require; require('pelican==3.0')
-del require
-__file__ = '/Users/tarek/Dev/github.com/pelican/bin/pelican'
-execfile(__file__)
