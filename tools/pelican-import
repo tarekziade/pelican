@@ -11,8 +11,11 @@ from pelican.utils import slugify
 
 def wp2fields(xml):
     """Opens a wordpress XML file, and yield pelican fields"""
-    from BeautifulSoup import BeautifulStoneSoup
-
+    try:
+        from BeautifulSoup import BeautifulStoneSoup
+    except ImportError:
+        raise ImportError("You need to install BeautifulSoup to use the "
+                           "wordpress importer")
     xmlfile = open(xml, encoding='utf-8').read()
     soup = BeautifulStoneSoup(xmlfile)
     items = soup.rss.channel.findAll('item')
