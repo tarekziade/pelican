@@ -3,7 +3,7 @@
 import argparse
 import os
 import time
-
+import subprocess
 from codecs import open
 
 from pelican.utils import slugify
@@ -16,6 +16,14 @@ def wp2fields(xml):
     except ImportError:
         raise ImportError("You need to install BeautifulSoup to use the "
                            "wordpress importer")
+    try:
+        subprocess.check_call('pandoc -v', shell=True , stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError:
+        raise IOError("You need to install pandoc or make sure it's in the"
+                      " PATH")
+
+    print 'Parsing the XML...'
     xmlfile = open(xml, encoding='utf-8').read()
     soup = BeautifulStoneSoup(xmlfile)
     items = soup.rss.channel.findAll('item')
