@@ -32,7 +32,8 @@ def get_date(string):
 
 def open(filename):
     """Open a file and return it's content"""
-    return _open(filename, encoding='utf-8').read()
+    with _open(filename, encoding='utf-8') as f:
+        return f.read()
 
 
 def slugify(value):
