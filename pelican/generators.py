@@ -4,19 +4,21 @@ import datetime
 import math
 import random
 import urlparse
+from os.path import exists, getmtime
 
 from collections import defaultdict
 from functools import partial
 from itertools import chain
 from operator import attrgetter, itemgetter
 
-from jinja2 import Environment, FileSystemLoader, PrefixLoader, ChoiceLoader
-from jinja2.exceptions import TemplateNotFound
+from jinja2 import (Environment, FileSystemLoader, PrefixLoader, ChoiceLoader,
+                    BaseLoader, TemplateNotFound)
 
 from pelican.contents import Article, Page, is_valid_content
 from pelican.log import *
 from pelican.readers import read_file
-from pelican.utils import copy, process_translations, open
+from pelican.utils import copy, process_translations
+from pelican.utils import open as pelican_open
 from pelican.utils import slugify
 
 
@@ -95,6 +97,34 @@ class Generator(object):
             if hasattr(value, 'items'):
                 value = value.items()
             self.context[item] = value
+
+
+class _FileLoader(BaseLoader):
+
+    def __init__(self, path):
+        self.path = path
+
+    def get_source(self, environment, template):
+        path = template
+        if not exists(path):
+            raise TemplateNotFound(template)
+        mtime = getmtime(path)
+        with file(path) as f:
+            source = f.read().decode('utf-8')
+        return source, path, lambda: mtime == getmtime(path)
+
+
+class StaticPageGenerator(Generator):
+
+    def generate_output(self, writer):
+        for urlpath, source in self.settings['STATIC_PAGES'].items():
+            self._env.loader.loaders.insert(0, _FileLoader(source))
+            try:
+                template = self._env.get_template(source)
+                rurls = self.settings.get('RELATIVE_URLS')
+                writer.write_file(urlpath.strip('/'), template, self.context, rurls)
+            finally:
+                del self._env.loader.loaders[0]
 
 
 class ArticlesGenerator(Generator):
@@ -212,7 +242,7 @@ class ArticlesGenerator(Generator):
         files = self.get_files(self.path, exclude=['pages',])
         all_articles = []
         for f in files:
-            
+
             try:
                 content, metadata = read_file(f, settings=self.settings)
             except Exception, e:
@@ -391,7 +421,8 @@ class PdfGenerator(Generator):
             filename = obj.slug + ".pdf"
             output_pdf=os.path.join(output_path, filename)
             # print "Generating pdf for", obj.filename, " in ", output_pdf
-            self.pdfcreator.createPdf(text=open(obj.filename), output=output_pdf)
+            self.pdfcreator.createPdf(text=pelican_open(obj.filename),
+                                      output=output_pdf)
             info(u' [ok] writing %s' % output_pdf)
 
     def generate_context(self):
