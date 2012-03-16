@@ -79,6 +79,10 @@ class Pelican(object):
     def get_generator_classes(self):
         generators = [ArticlesGenerator, PagesGenerator, StaticGenerator,
                       StaticPageGenerator]
+
+        if self.settings['STATIC_PAGES']:
+            generators.append(StaticPageGenerator)
+
         if self.settings['PDF_GENERATOR']:
             generators.append(PdfGenerator)
         return generators
