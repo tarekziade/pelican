@@ -28,7 +28,7 @@ Setting name (default value)                        what does it do?
                                                     particular way, see below.
 `AUTHOR`                                            Default author (put your name)
 `CLEAN_URLS` (``False``)                             If set to `True`, the URLs will not be suffixed by
-                                                    `.html`, so you will have to setup URL rewriting on 
+                                                    `.html`, so you will have to setup URL rewriting on
                                                     your web server.
 `DATE_FORMATS` (``{}``)                             If you do manage multiple languages, you can
                                                     set the date formatting here. See "Date format and locales"
@@ -44,9 +44,9 @@ Setting name (default value)                        what does it do?
 `JINJA_EXTENSIONS` (``[]``)                         A list of any Jinja2 extensions you want to use.
 `DELETE_OUTPUT_DIRECTORY` (``False``)               Delete the output directory and just
                                                     the generated files.
-`LOCALE` (''[#]_)                                   Change the locale. A list of locales can be provided 
+`LOCALE` (''[#]_)                                   Change the locale. A list of locales can be provided
                                                     here or a single string representing one locale.
-                                                    When providing a list, all the locales will be tried 
+                                                    When providing a list, all the locales will be tried
                                                     until one works.
 `MARKUP` (``('rst', 'md')``)                        A list of available markup languages you want
                                                     to use. For the moment, only available values
@@ -67,6 +67,9 @@ Setting name (default value)                        what does it do?
                                                     not a way to tell pelican to use relative urls
                                                     or static ones. You should rather use the
                                                     `RELATIVE_URL` setting for such use.
+`STATIC_PAGES` (None)                               A mapping containing static pages that will
+                                                    be rendered with the blog entries. See
+                                                    :ref:`static_pages`.
 `STATIC_PATHS` (``['images']``)                     The static paths you want to have accessible
                                                     on the output path "static". By default,
                                                     pelican will copy the 'images' folder to the
@@ -81,10 +84,10 @@ Setting name (default value)                        what does it do?
 Article permalink structure
 ---------------------------
 Allow to render articles sorted by date, in case you specify a format as
-specified in the example.  It follows the python datetime directives: 
+specified in the example.  It follows the python datetime directives:
 
-* %Y: Year with century as a decimal number.  
-* %m: Month as a decimal number [01,12].  
+* %Y: Year with century as a decimal number.
+* %m: Month as a decimal number [01,12].
 * %d: Day of the month as a decimal number [01,31].
 
 Note: if you specify a datetime directive, it will be substituted using the
@@ -94,16 +97,16 @@ will rely on the mtime of your file.
 Check the python datetime documentation at http://bit.ly/cNcJUC for more
 information.
 
-Also, you can use any metadata in the restructured text files: 
+Also, you can use any metadata in the restructured text files:
 
-* category: '%(category)s' 
-* author: '%(author)s' 
-* tags: '%(tags)s' 
+* category: '%(category)s'
+* author: '%(author)s'
+* tags: '%(tags)s'
 * date: '%(date)s'
 
-Example usage: 
+Example usage:
 
-* '/%Y/%m/' it will be something like '/2011/07/sample-post.html'.  
+* '/%Y/%m/' it will be something like '/2011/07/sample-post.html'.
 * '/%Y/%(category)s/' it will be something like '/2011/life/sample-post.html'.
 
 Timezone
@@ -165,6 +168,25 @@ a list of available locales with command ``locale -a``, see manpage `locale(1)`_
 .. _locales on Windows: http://msdn.microsoft.com/en-us/library/cdax410z%28VS.71%29.aspx
 
 .. _locale(1): http://linux.die.net/man/1/locale
+
+
+.. _static_pages:
+
+Static pages
+============
+
+If you want to generate static pages besides your blog entries, you can point
+any HTML or HTML template file with a path pointing to the file and the
+URL it will match.
+
+For instance, if you have a blog with four static pages, for a list of
+books, your resume and a contact page, you could have::
+
+    STATIC_PAGES = {'/books.html': 'static/books.html',
+                    '/resume.html': 'static/resume.html',
+                    '/contact.html': 'static/contact.html'}
+
+
 
 Feed settings
 =============
