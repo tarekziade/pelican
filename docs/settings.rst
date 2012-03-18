@@ -27,7 +27,7 @@ Setting name (default value)                        what does it do?
 `ARTICLE_PERMALINK_STRUCTURE` (``''``)              Empty by default. Allows to render URLs in a
                                                     particular way, see below.
 `AUTHOR`                                            Default author (put your name)
-`CLEAN_URLS` (``False``)                             If set to `True`, the URLs will not be suffixed by
+`CLEAN_URLS` (``False``)                            If set to `True`, the URLs will not be suffixed by
                                                     `.html`, so you will have to setup URL rewriting on
                                                     your web server.
 `DATE_FORMATS` (``{}``)                             If you do manage multiple languages, you can
@@ -130,14 +130,14 @@ Date format and locale
 If no DATE_FORMAT is set, fallback to DEFAULT_DATE_FORMAT. If you need to
 maintain multiple languages with different date format, you can set this dict
 using language name (``lang`` in your posts) as key. About available format
-codes, see `strftime document of python`_ :
+codes, see `strftime document of python`_ ::
 
     DATE_FORMAT = {
         'en': '%a, %d %b %Y',
         'jp': '%Y-%m-%d(%a)',
     }
 
-You can set locale to further control date format:
+You can set locale to further control date format::
 
     LOCALE = ('usa', 'jpn',  # On Windows
         'en_US', 'ja_JP'     # On Unix/Linux
@@ -145,7 +145,7 @@ You can set locale to further control date format:
 
 Also, it is possible to set different locale settings for each language, if you
 put (locale, format) tuple in dict, and this will override the LOCALE setting
-above:
+above::
 
     # On Unix/Linux
     DATE_FORMAT = {
